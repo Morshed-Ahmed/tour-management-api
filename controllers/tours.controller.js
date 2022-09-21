@@ -33,3 +33,21 @@ exports.createTour = async (req, res, next) => {
     });
   }
 };
+
+exports.detailsTour = async (req, res, next) => {
+  try {
+    const { id } = req.params;
+    const result = await Tours.findOne({ _id: id });
+    res.status(200).json({
+      successful: true,
+      //   message: "Data create successfully",
+      data: result,
+    });
+  } catch (error) {
+    res.status(400).json({
+      status: "Fail",
+      message: "Data details is not find",
+      error: error.message,
+    });
+  }
+};
