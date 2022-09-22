@@ -8,20 +8,18 @@ const {
 
 exports.getTours = async (req, res, next) => {
   try {
-    const { fields, limit } = req.query;
+    const { fields, sort } = req.query;
     const queries = {};
-    // if (field) {
-    //   const fields = field.split(",").join(" ");
-    //   queries.fields = fields;
-    //   console.log(fields);
-    // }
+
     if (fields) {
       const field = fields.split(",").join(" ");
       queries.field = field;
       // console.log(field);
     }
-    if (limit) {
-      console.log(limit);
+    if (sort) {
+      const sortBy = sort.split(",").join(" ");
+      queries.sortBy = sortBy;
+      // console.log(sortBy);
     }
 
     const result = await getToursService(queries);
