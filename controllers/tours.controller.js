@@ -8,7 +8,7 @@ const {
 
 exports.getTours = async (req, res, next) => {
   try {
-    const { fields, sort } = req.query;
+    const { fields, sort, page = 1, limit = 10 } = req.query;
     const queries = {};
 
     if (fields) {
@@ -20,6 +20,12 @@ exports.getTours = async (req, res, next) => {
       const sortBy = sort.split(",").join(" ");
       queries.sortBy = sortBy;
       // console.log(sortBy);
+    }
+
+    if (page) {
+      const skip = (page - 1) * Number(limit);
+      queries.skip = skip;
+      queries.limit = parseInt(limit);
     }
 
     const result = await getToursService(queries);

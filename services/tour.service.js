@@ -1,8 +1,15 @@
 const Tours = require("../model/Tours");
 
 exports.getToursService = async (queries) => {
-  const result = await Tours.find().sort(queries.sortBy).select(queries.field);
-  return result;
+  const result = await Tours.find()
+    .skip(queries.skip)
+    .limit(queries.limit)
+    .select(queries.field)
+    .sort(queries.sortBy);
+  const total = await Tours.countDocuments();
+  const count = Math.ceil(total / queries.limit);
+
+  return { total, count, result };
 };
 
 exports.createTourService = async (data) => {
